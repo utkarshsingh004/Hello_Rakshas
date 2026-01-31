@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import './GreetingCard.css'
 import Slide from './Slide'
@@ -7,6 +7,8 @@ function GreetingCard() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const audioRef = useRef(null)
+
+  const navigate = useNavigate();
 
   const slides = [
     {
@@ -35,14 +37,6 @@ function GreetingCard() {
     { id: 14, image: './14.jpg', title: '', text: '---->' },
   ]
 
-  const handleNext = () => {
-    setCurrentSlide((prev) => prev + 1)
-  }
-
-  const handlePrevious = () => {
-    setCurrentSlide((prev) => prev - 1)
-  }
-
   const toggleMusic = () => {
     if (!audioRef.current) return
     if (isPlaying) audioRef.current.pause()
@@ -50,20 +44,30 @@ function GreetingCard() {
     setIsPlaying(!isPlaying)
   }
 
-  const navigate = useNavigate();
+  const handleClickMe = () => {
+    navigate("/proposal");
+  };
 
-const handleClickMe = () => {
-  navigate("/proposal");
-};
+  // ✅ Auto slide every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => {
+        if (prev < slides.length - 1) {
+          return prev + 1;
+        } else {
+          clearInterval(interval);
+          return prev;
+        }
+      });
+    }, 10000); // 10 seconds
 
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="greeting-card">
       <audio ref={audioRef} loop>
-        <source
-          src="./Madhubala.mp3"
-          type="audio/mpeg"
-        />
+        <source src="./Madhubala.mp3" type="audio/mpeg" />
       </audio>
 
       <div className="card-container">
@@ -79,35 +83,24 @@ const handleClickMe = () => {
           text={slides[currentSlide].text}
         />
 
-        <div className="navigation">
-          <button
-            onClick={handlePrevious}
-            className="nav-btn prev-btn"
-            disabled={currentSlide === 0}
-          >
-            ← Previous
-          </button>
+        {/* Slide dots */}
+        <div className="slide-indicator">
+          {slides.map((_, index) => (
+            <span
+              key={index}
+              className={`dot ${index === currentSlide ? 'active' : ''}`}
+            />
+          ))}
+        </div>
 
-          <div className="slide-indicator">
-            {slides.map((_, index) => (
-              <span
-                key={index}
-                className={`dot ${index === currentSlide ? 'active' : ''}`}
-                onClick={() => setCurrentSlide(index)}
-              />
-            ))}
-          </div>
-
-          {currentSlide === slides.length - 1 ? (
+        {/* Show Click Me only on last slide */}
+        {currentSlide === slides.length - 1 && (
+          <div className="clickme-container">
             <button onClick={handleClickMe} className="nav-btn clickme-btn">
               Click Me 💖
             </button>
-          ) : (
-            <button onClick={handleNext} className="nav-btn next-btn">
-              Next →
-            </button>
-          )}
-        </div>
+          </div>
+        )}
 
         <div className="slide-counter">
           {currentSlide + 1} / {slides.length}
