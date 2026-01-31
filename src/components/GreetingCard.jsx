@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { useNavigate } from "react-router-dom";
 import './GreetingCard.css'
 import Slide from './Slide'
 
@@ -11,52 +12,58 @@ function GreetingCard() {
     {
       id: 1,
       image: './1.jpg',
-      title: 'Happy Birthday!',
-      text: 'Wishing you a day filled with love, joy, and wonderful memories!'
+      title: '',
+      text: 'Masoom si hasi, nanhe se armaan, Tasveer mein chhupi hai ek pyaari si pehchaan. Waqt ne badla rang, chehra badal gaya, Par is bachpan ki muskaan mein dil aaj bhi wahi bas gaya. 💖'
     },
     {
       id: 2,
-      image: 'https://images.pexels.com/photos/1729797/pexels-photo-1729797.jpeg?auto=compress&cs=tinysrgb&w=800',
-      title: 'Celebrate Life',
-      text: 'May this special day bring you endless happiness and countless blessings.'
+      image: './2.jpg',
+      title: '',
+      text: 'Gulabi saari mein tu lag rahi thi ek pyaari si muskaan, Jaise Diwali ki roshni ne pehan li ho naya armaan. Na ishq, na sharmahat, bas dosti ka rang chhaya, Teri hansi ne har andheri shaam ko roshan banaya. 💖🤝✨'
     },
-    {
-      id: 3,
-      image: 'https://images.pexels.com/photos/1369870/pexels-photo-1369870.jpeg?auto=compress&cs=tinysrgb&w=800',
-      title: 'Make a Wish',
-      text: 'Here\'s to another year of laughter, joy, and unforgettable moments!'
-    },
-    {
-      id: 4,
-      image: 'https://images.pexels.com/photos/264887/pexels-photo-264887.jpeg?auto=compress&cs=tinysrgb&w=800',
-      title: 'Cheers to You!',
-      text: 'Thank you for being such an amazing person. Have a fantastic birthday!'
-    }
+    { id: 3, image: './3.jpg', title: '', text: 'Will' },
+    { id: 4, image: './4.jpg', title: '', text: 'You' },
+    { id: 5, image: './5.jpg', title: '', text: 'Be' },
+    { id: 6, image: './6.jpg', title: '', text: 'My' },
+    { id: 7, image: './7.jpg', title: '', text: '---->' },
+    { id: 8, image: './8.jpg', title: '', text: '---->' },
+    { id: 9, image: './9.jpg', title: '', text: '---->' },
+    { id: 10, image: './10.jpg', title: '', text: '---->' },
+    { id: 11, image: './11.jpg', title: '', text: '---->' },
+    { id: 12, image: './12.jpg', title: '', text: '---->' },
+    { id: 13, image: './13.jpg', title: '', text: '---->' },
+    { id: 14, image: './14.jpg', title: '', text: '---->' },
   ]
 
   const handleNext = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length)
+    setCurrentSlide((prev) => prev + 1)
   }
 
   const handlePrevious = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
+    setCurrentSlide((prev) => prev - 1)
   }
 
   const toggleMusic = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause()
-      } else {
-        audioRef.current.play()
-      }
-      setIsPlaying(!isPlaying)
-    }
+    if (!audioRef.current) return
+    if (isPlaying) audioRef.current.pause()
+    else audioRef.current.play()
+    setIsPlaying(!isPlaying)
   }
+
+  const navigate = useNavigate();
+
+const handleClickMe = () => {
+  navigate("/proposal");
+};
+
 
   return (
     <div className="greeting-card">
       <audio ref={audioRef} loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-happyrock.mp3" type="audio/mpeg" />
+        <source
+          src="https://www.bensound.com/bensound-music/bensound-happyrock.mp3"
+          type="audio/mpeg"
+        />
       </audio>
 
       <div className="card-container">
@@ -91,13 +98,15 @@ function GreetingCard() {
             ))}
           </div>
 
-          <button
-            onClick={handleNext}
-            className="nav-btn next-btn"
-            disabled={currentSlide === slides.length - 1}
-          >
-            Next →
-          </button>
+          {currentSlide === slides.length - 1 ? (
+            <button onClick={handleClickMe} className="nav-btn clickme-btn">
+              Click Me 💖
+            </button>
+          ) : (
+            <button onClick={handleNext} className="nav-btn next-btn">
+              Next →
+            </button>
+          )}
         </div>
 
         <div className="slide-counter">

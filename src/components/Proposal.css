@@ -1,0 +1,73 @@
+.proposal-container {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;   /* IMPORTANT */
+    overflow: hidden;
+  }
+  
+  .proposal-container h1 {
+    color: white;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    text-align: center;
+  }
+  
+  /* Center wrapper */
+  .btn-wrapper {
+    display: flex;
+    gap: 20px;
+  }
+  
+  /* YES button */
+  .yes-btn {
+    padding: 16px 40px;
+    border: none;
+    border-radius: 35px;
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 2;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+  
+  /* NO button (will float freely) */
+  .no-btn {
+    padding: 14px 30px;
+    border: none;
+    border-radius: 35px;
+    background: linear-gradient(135deg, #ff6a6a, #ff3d3d);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+  
+  /* OK text */
+  .ok-text {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease-in;
+    text-align: center;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
